@@ -79,7 +79,24 @@ var Engine = (function(global) {
      */
     function update(dt) {
         updateEntities(dt);
-        // checkCollisions();
+        checkCollisions();
+        checkWin();
+    }
+
+    function checkCollisions() {
+        allEnemies.forEach(function(enemy) {
+            if (Math.abs(enemy.x - player.x) < 50 && Math.abs(enemy.y - player.y) < 50) {
+                stop();
+                document.getElementById('result').textContent = 'LOST';
+            }
+        });
+    }
+
+    function checkWin() {
+        if (player.y === -15) {
+            stop();
+            document.getElementById('result').textContent = 'WIN!';
+        }
     }
 
     /* This is called by the update function and loops through all of the
@@ -171,6 +188,13 @@ var Engine = (function(global) {
         // player.freeze = false;
         // document.getElementById('result').textContent = '';
         // document.getElementById('reset').style.display = 'none';
+    }
+
+    function stop() {
+        allEnemies.forEach(function(enemy) {
+            enemy.speed = 0;
+        });
+        player.freeze = true;
     }
 
     /* Go ahead and load all of the images we know we're going to need to

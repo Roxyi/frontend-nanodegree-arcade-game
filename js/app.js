@@ -22,16 +22,6 @@ Enemy.prototype.update = function(dt) {
         this.speed = Math.floor(Math.random()*300) + 200;
     }
     this.x += dt*this.speed;
-
-    if (Math.abs(this.x - player.x) < 50 && Math.abs(this.y - player.y) < 50) {
-        console.log('lose');
-        allEnemies.forEach(function(enemy) {
-            enemy.speed = 0;
-        });
-        player.freeze = true;
-        document.getElementById('result').textContent = 'LOST';
-        document.getElementById('reset').style.display = 'inline';
-    }
 };
 
 // Draw the enemy on the screen, required method for game
@@ -50,15 +40,7 @@ var Player = function() {
 };
 
 Player.prototype.update = function() {
-    if (this.y === -15) {
-        console.log('win');
-        allEnemies.forEach(function(enemy) {
-            enemy.speed = 0;
-        });
-        player.freeze = true;
-        document.getElementById('result').textContent = 'WIN!';
-        document.getElementById('reset').style.display = 'inline';
-    }
+    
 }
 
 Player.prototype.render = function() {
@@ -80,7 +62,7 @@ Player.prototype.handleInput = function(direction) {
         case 'down':
             this.y = (this.y === 400) ? this.y : this.y + 83;
             break;
-    }
+        }
     }
 }
 
