@@ -162,6 +162,15 @@ var Engine = (function(global) {
      */
     function reset() {
         // noop
+        // allEnemies.forEach(function(enemy) {
+        //     enemy.x = -100;
+        //     enemy.speed = 0;
+        // });
+        // player.x = 202;
+        // player.y = 400;
+        // player.freeze = false;
+        // document.getElementById('result').textContent = '';
+        // document.getElementById('reset').style.display = 'none';
     }
 
     /* Go ahead and load all of the images we know we're going to need to
