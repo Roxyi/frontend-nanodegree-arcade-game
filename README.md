@@ -12,4 +12,5 @@ Udacity Front-end Nanodegree Arcade Game
 4. If you lose, press R to restart or press S to switch character.
 
 **Dependencies**
+
 The font used is [Press Start 2P](https://fonts.google.com/specimen/Press+Start+2P) from Google Fonts
