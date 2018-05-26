@@ -5,8 +5,11 @@ Udacity Front-end Nanodegree Arcade Game
 1. Clone this repo and open index.html
 2. Go to the [live version](https://roxyi.github.io/frontend-nanodegree-arcade-game/.)
 
-**How to Play
+**How to Play**
 1. Use arrows on your keyboard to move the object or select options.
 2. Choose your favorite character and press ENTER to play the game.
 3. Avoid enemies and reach the river to win.
 4. If you lose, press R to restart or press S to switch character.
+
+**Dependencies**
+The font used is [Press Start 2P](https://fonts.google.com/specimen/Press+Start+2P) from Google Fonts
