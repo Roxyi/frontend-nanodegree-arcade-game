@@ -63,6 +63,11 @@ var Engine = (function(global) {
      * game loop.
      */
     function init() {
+        document.getElementById('boy').style.backgroundImage = 'url(images/char-boy.png), url(images/Selector.png)';
+        document.getElementById('cat-girl').style.backgroundImage = 'url(images/char-cat-girl.png)';
+        document.getElementById('horn-girl').style.backgroundImage = 'url(images/char-horn-girl.png)';
+        document.getElementById('pink-girl').style.backgroundImage = 'url(images/char-pink-girl.png)';
+        document.getElementById('princess-girl').style.backgroundImage = 'url(images/char-princess-girl.png)';
         reset();
         lastTime = Date.now();
         main();
@@ -110,7 +115,6 @@ var Engine = (function(global) {
         allEnemies.forEach(function(enemy) {
             enemy.update(dt);
         });
-        player.update();
     }
 
     /* This function initially draws the "game level", it will then call
@@ -179,22 +183,29 @@ var Engine = (function(global) {
      */
     function reset() {
         // noop
-        // allEnemies.forEach(function(enemy) {
-        //     enemy.x = -100;
-        //     enemy.speed = 0;
-        // });
-        // player.x = 202;
-        // player.y = 400;
-        // player.freeze = false;
-        // document.getElementById('result').textContent = '';
-        // document.getElementById('reset').style.display = 'none';
+        document.getElementById('result').style.display = 'none';
+        document.getElementById('reset').style.display = 'none';
+        document.getElementById('switch').style.display = 'none';
+        allEnemies.forEach(function(enemy) {
+            enemy.speed = Math.floor(Math.random()*300) + 200;
+        });
+        player.x = 202;
+        player.y = 400;
+        resetFlag = false;
     }
 
     function stop() {
         allEnemies.forEach(function(enemy) {
             enemy.speed = 0;
         });
-        player.freeze = true;
+        document.getElementById('result').style.display = 'block';
+        document.getElementById('reset').style.display = 'block';
+        document.getElementById('switch').style.display = 'block';
+        if (resetFlag) {
+            reset();
+        } else {
+            player.freeze = true;
+        }
     }
 
     /* Go ahead and load all of the images we know we're going to need to
@@ -206,7 +217,11 @@ var Engine = (function(global) {
         'images/water-block.png',
         'images/grass-block.png',
         'images/enemy-bug.png',
-        'images/char-boy.png'
+        'images/char-boy.png',
+        'images/char-cat-girl.png',
+        'images/char-horn-girl.png',
+        'images/char-pink-girl.png',
+        'images/char-princess-girl.png'
     ]);
     Resources.onReady(init);
 

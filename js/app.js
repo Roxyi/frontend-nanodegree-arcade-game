@@ -35,33 +35,31 @@ Enemy.prototype.render = function() {
 var Player = function() {
     this.x = 202;
     this.y = 400;
-    this.freeze = false;
+    this.freeze = true;
     this.sprite = 'images/char-boy.png';
 };
-
-Player.prototype.update = function() {
-    
-}
 
 Player.prototype.render = function() {
     Enemy.prototype.render.call(this);
 };
 
 Player.prototype.handleInput = function(direction) {
-    if (!this.freeze) {
+    if (this.freeze) {
+        selectCharacter(direction);
+    } else {
         switch(direction) {
-        case 'left':
-            this.x = (this.x === 0) ? this.x : this.x - 101;
-            break;
-        case 'up':
-            this.y = (this.y === -15) ? this.y : this.y - 83;
-            break;
-        case 'right':
-            this.x = (this.x === 404) ? this.x : this.x + 101;
-            break;
-        case 'down':
-            this.y = (this.y === 400) ? this.y : this.y + 83;
-            break;
+            case 'left':
+                this.x = (this.x === 0) ? this.x : this.x - 101;
+                break;
+            case 'up':
+                this.y = (this.y === -15) ? this.y : this.y - 83;
+                break;
+            case 'right':
+                this.x = (this.x === 404) ? this.x : this.x + 101;
+                break;
+            case 'down':
+                this.y = (this.y === 400) ? this.y : this.y + 83;
+                break;
         }
     }
 }
@@ -83,12 +81,47 @@ document.addEventListener('keyup', function(e) {
         37: 'left',
         38: 'up',
         39: 'right',
-        40: 'down'
+        40: 'down',
+        13: 'enter',
+        82: 'reset',
+        83: 'switch'
     };
 
     player.handleInput(allowedKeys[e.keyCode]);
 });
 
-function restart() {
-    resetFlag = true;
+function selectCharacter(direction) {
+    var characters = document.querySelector('.select').children;
+    for (var i = 0; i < characters.length; i++) {
+        var bgImg = characters[i].style.backgroundImage.split(',');
+        if (bgImg.length === 2) {
+            if (direction === 'left' && i>0) {
+                characters[i].style.backgroundImage = bgImg[0];
+                characters[i-1].style.backgroundImage = characters[i-1].style.backgroundImage.concat(`,${bgImg[1]}`);
+            }
+            if (direction === 'right' && i<characters.length-1) {
+                characters[i].style.backgroundImage = bgImg[0];
+                characters[i+1].style.backgroundImage = characters[i+1].style.backgroundImage.concat(`,${bgImg[1]}`);
+            }
+            if (direction === 'enter') {
+                document.querySelector('.modal').style.opacity = 0;
+                player.freeze = false;
+                player.sprite = bgImg[0].split(`"`)[1];                
+            }
+            if (direction === 'reset') {
+                resetFlag = true;
+                player.freeze = false;
+            }
+            if (direction === 'switch') {
+                document.querySelector('.modal').style.opacity = 1;
+                player.freeze = true;
+                document.querySelector('#reset').style.display = 'none';
+                document.querySelector('#result').style.display = 'none';
+                document.getElementById('switch').style.display = 'none';
+                resetFlag = true;
+            }
+            return;
+        }
+    }
 }
+
