@@ -63,6 +63,7 @@ var Engine = (function(global) {
      * game loop.
      */
     function init() {
+        // add background images to five characters, the first one is selected by default
         document.getElementById('boy').style.backgroundImage = 'url(images/char-boy.png), url(images/Selector.png)';
         document.getElementById('cat-girl').style.backgroundImage = 'url(images/char-cat-girl.png)';
         document.getElementById('horn-girl').style.backgroundImage = 'url(images/char-horn-girl.png)';
@@ -88,6 +89,7 @@ var Engine = (function(global) {
         checkWin();
     }
 
+    // if there are collisions, stop the game and show 'LOST'
     function checkCollisions() {
         allEnemies.forEach(function(enemy) {
             if (Math.abs(enemy.x - player.x) < 50 && Math.abs(enemy.y - player.y) < 50) {
@@ -97,6 +99,7 @@ var Engine = (function(global) {
         });
     }
 
+    // if player reaches the river, stop the game and show 'WIN'
     function checkWin() {
         if (player.y === -15) {
             stop();
@@ -115,6 +118,10 @@ var Engine = (function(global) {
         allEnemies.forEach(function(enemy) {
             enemy.update(dt);
         });
+
+        // I removed the player.update() function because since I check
+        // win or lose here, there is no need to write a player update
+        // function
     }
 
     /* This function initially draws the "game level", it will then call
@@ -182,18 +189,28 @@ var Engine = (function(global) {
      * those sorts of things. It's only called once by the init() method.
      */
     function reset() {
-        // noop
+        // remove result and reset text
         document.getElementById('result').style.display = 'none';
         document.getElementById('reset').style.display = 'none';
         document.getElementById('switch').style.display = 'none';
+
+        // enemy speed back to random
         allEnemies.forEach(function(enemy) {
             enemy.speed = Math.floor(Math.random()*300) + 200;
         });
+
+        // place the player to the initial position
         player.x = 202;
         player.y = 400;
+
+        // reset the resetFlag
         resetFlag = false;
+
+        // do not reset the gameStarted flag because a reset doesn't mean
+        // a fresh start of the game
     }
 
+    // stop all enemies and show result and reset
     function stop() {
         allEnemies.forEach(function(enemy) {
             enemy.speed = 0;
@@ -201,6 +218,8 @@ var Engine = (function(global) {
         document.getElementById('result').style.display = 'block';
         document.getElementById('reset').style.display = 'block';
         document.getElementById('switch').style.display = 'block';
+
+        // if the user choose to restart, then reset, else freeze the player
         if (resetFlag) {
             reset();
         } else {
